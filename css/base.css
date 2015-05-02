@@ -48,7 +48,7 @@ canvas {
 	border-radius: 6px;
 }
 
-a:hover {
+#presets a:hover {
 	background-color: #222;
 }
 

@@ -1,4 +1,3 @@
-console.log("Test");
 
 var presets = {
 	preset1: {

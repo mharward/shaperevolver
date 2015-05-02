@@ -13,94 +13,7 @@
 
 		<link href='css/base.css' media='screen' rel='stylesheet' type='text/css'/>
 		<script src='js/draw.js' type='text/javascript'></script>
-
-		<script>
-		$(function() {
-			var resizeId = false;
-			$(window).resize(function() {
-				if (resizeId) {
-					clearTimeout(resizeId);
-				}
-				resizeId = setTimeout(function() {
-					resize();
-				}, 300);
-			});
-
-			var sideBarVisible = true;
-			$('#buttonToggle').click(function(){
-				$('#sideBar').toggleClass('useSideBar');
-				if (sideBarVisible) {
-					$('#arrowSpan').html('&#x25BC;');
-				} else {
-					$('#arrowSpan').html('&#x25B2;');
-				}
-				sideBarVisible = !sideBarVisible;
-			});
-
-			$('#preset1').on('click', function () { setPreset('preset1'); setSliderValues(); });
-			$('#preset2').on('click', function () { setPreset('preset2'); setSliderValues(); });
-			$('#preset3').on('click', function () { setPreset('preset3'); setSliderValues(); });
-
-			$('#typeCombo').on('change', function() { setType(this.value); });
-
-			$('#xPosSlider').slider({ min: -500, max: 500 });
-			$("#xPosSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setXPosOffset(ui.value); }});
-
-			$('#yPosSlider').slider({ min: -500, max: 500 });
-			$("#yPosSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setYPosOffset(ui.value); }});
-
-			$('#heightSlider').slider({ min: -500, max: 500 });
-			$("#heightSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setHeightOffset(ui.value); }});
-
-			$('#widthSlider').slider({ min: -150, max: 150 });
-			$("#widthSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setWidthOffset(ui.value); }});
-
-			$('#heightChangeSlider').slider({ min: 0.5, max: 1.5, step: 0.05 });
-			$("#heightChangeSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setHeightChange(ui.value); }});
-
-			$('#widthChangeSlider').slider({ min: 0.75, max: 1.25, step: 0.025 });
-			$("#widthChangeSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setWidthChange(ui.value); }});
-
-			$('#countSlider').slider({ min: 1, max: 100 });
-			$("#countSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setCount(ui.value); }});
-
-			$('#rotationSlider').slider({ min: -0.8, max: 0.8, step: 0.05 });
-			$("#rotationSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setRotationChange(ui.value); }});
-
-			$('#initialRotationSlider').slider({ min: -Math.PI, max: Math.PI, step: 0.01 });
-			$("#initialRotationSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setInitialRotation(ui.value); }});
-
-			$("#startColour").on("change", function() { setStartColour($(this).val()); });
-			$("#endColour").on("change", function() { setEndColour($(this).val()); });
-
-			$('#xCentreOffsetSlider').slider({ min: -300, max: 300 });
-			$("#xCentreOffsetSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setXCentreOffset(ui.value); }});
-
-			$('#yCentreOffsetSlider').slider({ min: -300, max: 300 });
-			$("#yCentreOffsetSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setYCentreOffset(ui.value); }});
-
-			function setSliderValues() {
-				$('#typeCombo').val(options.type);
-
-				$('#xPosSlider').slider("value", options.xOffset);
-				$('#yPosSlider').slider("value", options.yOffset);
-				$('#heightSlider').slider("value", options.heightOffset);
-				$('#widthSlider').slider("value", options.widthOffset);
-				$('#heightChangeSlider').slider("value", options.heightChange);
-				$('#widthChangeSlider').slider("value", options.widthChange);
-				$('#countSlider').slider("value", options.count);
-				$('#rotationSlider').slider("value", options.rotationChange);
-				$('#initialRotationSlider').slider("value", options.initialRotation);
-				$('#xCentreOffsetSlider').slider("value", options.xCentreOffset);
-				$('#yCentreOffsetSlider').slider("value", options.yCentreOffset);
-
-				$("#startColour").val(options.startColour);
-				$("#endColour").val(options.endColour);
-			}
-
-			setSliderValues();
-		});
-		</script>
+		<script src='js/fields.js' type='text/javascript'></script>
 	</head>
 	<body>
 		<div id="buttonToggle">
@@ -124,12 +37,9 @@
 			</select>
 			<p class="description">&#x25B2; TYPE</p>
 
-			<div id="xPosSlider" class="slider"></div>
-			<p class="description">&#x25B2; X-POS</p>
-
-			<div id="yPosSlider" class="slider"></div>
-			<p class="description">&#x25B2; Y-POS</p>
-
+			<div id="countSlider" class="slider"></div>
+			<p class="description">&#x25B2; COUNT</p>
+			
 			<div id="heightSlider" class="slider"></div>
 			<p class="description">&#x25B2; HEIGHT</p>
 
@@ -141,9 +51,12 @@
 
 			<div id="widthChangeSlider" class="slider"></div>
 			<p class="description">&#x25B2; WIDTH CHANGE</p>
+			
+			<input id="startColour" type="color" class="colorPicker" value="#a92370">
+			<p class="description">&#x25B2; START COLOUR</p>
 
-			<div id="countSlider" class="slider"></div>
-			<p class="description">&#x25B2; COUNT</p>
+			<input id="endColour" type="color" class="colorPicker" value="#1a129c">
+			<p class="description">&#x25B2; END COLOUR</p>
 
 			<div id="rotationSlider" class="slider"></div>
 			<p class="description">&#x25B2; ROTATION</p>
@@ -151,17 +64,17 @@
 			<div id="initialRotationSlider" class="slider"></div>
 			<p class="description">&#x25B2; INITIAL ROTATION</p>
 
-			<input id="startColour" type="color" class="colorPicker" value="#a92370">
-			<p class="description">&#x25B2; START COLOUR</p>
-
-			<input id="endColour" type="color" class="colorPicker" value="#1a129c">
-			<p class="description">&#x25B2; END COLOUR</p>
-
 			<div id="xCentreOffsetSlider" class="slider"></div>
 			<p class="description">&#x25B2; X CENTRE OFFSET</p>
 
 			<div id="yCentreOffsetSlider" class="slider"></div>
 			<p class="description">&#x25B2; Y CENTRE OFFSET</p>
+
+			<div id="xPosSlider" class="slider"></div>
+			<p class="description">&#x25B2; X-POS</p>
+
+			<div id="yPosSlider" class="slider"></div>
+			<p class="description">&#x25B2; Y-POS</p>
 
 			<div id="creator">
 				<p>Created by <a target="_blank" href="mailto:contact@mharward.co.nz">Matthew Harward</a></p>

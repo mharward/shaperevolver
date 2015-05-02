@@ -73,6 +73,7 @@ function resize() {
 }
 
 function doDraw() {
+	centre = { x: canvas.width / 2 + options.xOffset, y: canvas.height / 2 + options.yOffset };
 	if (canvas.getContext) {
 		var ctx = canvas.getContext("2d");
 		ctx.clearRect (0, 0, canvas.width, canvas.height);
@@ -96,78 +97,6 @@ function doDraw() {
 		}
 		interval = window.setInterval(draw, 20);
 	}
-}
-
-function setType(type) {
-	options.type = type;
-	doDraw();
-}
-
-function setXPosOffset(amount) {
-	options.xOffset = amount;
-	centre = { x: canvas.width / 2 + options.xOffset, y: canvas.height / 2 + options.yOffset };
-	doDraw();
-}
-
-function setYPosOffset(amount) {
-	options.yOffset = -amount;
-	centre = { x: canvas.width / 2 + options.xOffset, y: canvas.height / 2 + options.yOffset };
-	doDraw();
-}
-
-function setHeightOffset(amount) {
-	options.heightOffset = amount;
-	doDraw();
-}
-
-function setWidthOffset(amount) {
-	options.widthOffset = amount;
-	doDraw();
-}
-
-function setHeightChange(amount) {
-	options.heightChange = amount;
-	doDraw();
-}
-
-function setWidthChange(amount) {
-	options.widthChange = amount;
-	doDraw();
-}
-
-function setCount(amount) {
-	options.count = amount;
-	doDraw();
-}
-
-function setRotationChange(amount) {
-	options.rotationChange = amount;
-	doDraw();
-}
-
-function setInitialRotation(amount) {
-	options.initialRotation = amount;
-	doDraw();
-}
-
-function setStartColour(value) {
-	options.startColour = value;
-	doDraw();
-}
-
-function setEndColour(value) {
-	options.endColour = value;
-	doDraw();
-}
-
-function setXCentreOffset(amount) {
-	options.xCentreOffset = amount;
-	doDraw();
-}
-
-function setYCentreOffset(amount) {
-	options.yCentreOffset = amount;
-	doDraw();
 }
 
 function drawTriangle (ctx, color, alpha, height, width, rotation, offsetX, offsetY, type) {

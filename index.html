@@ -12,7 +12,15 @@
 
 		<script>
 		$(function() {
-			$(window).resize(function() { resize(); });
+			var resizeId = false;
+			$(window).resize(function() {
+				if (resizeId) {
+					clearTimeout(resizeId);
+				}
+				resizeId = setTimeout(function() {
+					resize();
+				}, 300);
+			});
 
 			var sideBarVisible = true;
 			$('#buttonToggle').click(function(){
@@ -25,43 +33,68 @@
 				sideBarVisible = !sideBarVisible;
 			});
 
+			$('#preset1').on('click', function () { setPreset('preset1'); setSliderValues(); });
+			$('#preset2').on('click', function () { setPreset('preset2'); setSliderValues(); });
+			$('#preset3').on('click', function () { setPreset('preset3'); setSliderValues(); });
+
 			$('#typeCombo').on('change', function() { setType(this.value); });
 
-			$('#xPosSlider').slider({ min: -500, max: 500, value: 0 });
-			$("#xPosSlider").on("slidechange", function(event, ui) { setXPosOffset(ui.value); });
+			$('#xPosSlider').slider({ min: -500, max: 500 });
+			$("#xPosSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setXPosOffset(ui.value); }});
 
-			$('#yPosSlider').slider({ min: -500, max: 500, value: 0 });
-			$("#yPosSlider").on("slidechange", function(event, ui) { setYPosOffset(ui.value); });
+			$('#yPosSlider').slider({ min: -500, max: 500 });
+			$("#yPosSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setYPosOffset(ui.value); }});
 
-			$('#heightSlider').slider({ min: -500, max: 500, value: 0 });
-			$("#heightSlider").on("slidechange", function(event, ui) { setHeightOffset(ui.value); });
+			$('#heightSlider').slider({ min: -500, max: 500 });
+			$("#heightSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setHeightOffset(ui.value); }});
 
-			$('#widthSlider').slider({ min: -150, max: 150, value: 0 });
-			$("#widthSlider").on("slidechange", function(event, ui) { setWidthOffset(ui.value); });
+			$('#widthSlider').slider({ min: -150, max: 150 });
+			$("#widthSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setWidthOffset(ui.value); }});
 
-			$('#heightChangeSlider').slider({ min: 0.5, max: 1.5, value: 0.9, step: 0.05 });
-			$("#heightChangeSlider").on("slidechange", function(event, ui) { setHeightChange(ui.value); });
+			$('#heightChangeSlider').slider({ min: 0.5, max: 1.5, step: 0.05 });
+			$("#heightChangeSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setHeightChange(ui.value); }});
 
-			$('#widthChangeSlider').slider({ min: 0.75, max: 1.25, value: 1.05, step: 0.025 });
-			$("#widthChangeSlider").on("slidechange", function(event, ui) { setWidthChange(ui.value); });
+			$('#widthChangeSlider').slider({ min: 0.75, max: 1.25, step: 0.025 });
+			$("#widthChangeSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setWidthChange(ui.value); }});
 
-			$('#countSlider').slider({ min: 1, max: 100, value: 33 });
-			$("#countSlider").on("slidechange", function(event, ui) { setCount(ui.value); });
+			$('#countSlider').slider({ min: 1, max: 100 });
+			$("#countSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setCount(ui.value); }});
 
-			$('#rotationSlider').slider({ min: -0.8, max: 0.8, value: 0.3, step: 0.05 });
-			$("#rotationSlider").on("slidechange", function(event, ui) { setRotationChange(ui.value); });
+			$('#rotationSlider').slider({ min: -0.8, max: 0.8, step: 0.05 });
+			$("#rotationSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setRotationChange(ui.value); }});
 
-			$('#initialRotationSlider').slider({ min: -Math.PI, max: Math.PI, value: 0, step: 0.01 });
-			$("#initialRotationSlider").on("slidechange", function(event, ui) { setInitialRotation(ui.value); });
+			$('#initialRotationSlider').slider({ min: -Math.PI, max: Math.PI, step: 0.01 });
+			$("#initialRotationSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setInitialRotation(ui.value); }});
 
 			$("#startColour").on("change", function() { setStartColour($(this).val()); });
 			$("#endColour").on("change", function() { setEndColour($(this).val()); });
 
-			$('#xCentreOffsetSlider').slider({ min: -300, max: 300, value: 0 });
-			$("#xCentreOffsetSlider").on("slidechange", function(event, ui) { setYCentreOffset(ui.value); });
+			$('#xCentreOffsetSlider').slider({ min: -300, max: 300 });
+			$("#xCentreOffsetSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setXCentreOffset(ui.value); }});
 
-			$('#yCentreOffsetSlider').slider({ min: -300, max: 300, value: 0 });
-			$("#yCentreOffsetSlider").on("slidechange", function(event, ui) { setXCentreOffset(ui.value); });
+			$('#yCentreOffsetSlider').slider({ min: -300, max: 300 });
+			$("#yCentreOffsetSlider").on("slidechange", function(event, ui) { if (event.originalEvent) { setYCentreOffset(ui.value); }});
+
+			function setSliderValues() {
+				$('#typeCombo').val(options.type);
+
+				$('#xPosSlider').slider("value", options.xOffset);
+				$('#yPosSlider').slider("value", options.yOffset);
+				$('#heightSlider').slider("value", options.heightOffset);
+				$('#widthSlider').slider("value", options.widthOffset);
+				$('#heightChangeSlider').slider("value", options.heightChange);
+				$('#widthChangeSlider').slider("value", options.widthChange);
+				$('#countSlider').slider("value", options.count);
+				$('#rotationSlider').slider("value", options.rotationChange);
+				$('#initialRotationSlider').slider("value", options.initialRotation);
+				$('#xCentreOffsetSlider').slider("value", options.xCentreOffset);
+				$('#yCentreOffsetSlider').slider("value", options.yCentreOffset);
+
+				$("#startColour").val(options.startColour);
+				$("#endColour").val(options.endColour);
+			}
+
+			setSliderValues();
 		});
 		</script>
 	</head>
@@ -76,9 +109,9 @@
 		</div>
 		<div id="sideBar">
 			<div id="presets">
-				<a href="#">Preset 1</a>
-				<a href="#">Preset 2</a>
-				<a href="#">Preset 3</a>
+				<a id="preset1">Preset 1</a>
+				<a id="preset2">Preset 2</a>
+				<a id="preset3">Preset 3</a>
 			</div>
 			<select id="typeCombo">
 				<option value='triangle'>Triangle</option>
@@ -125,6 +158,11 @@
 
 			<div id="yCentreOffsetSlider" class="slider"></div>
 			<p class="description">&#x25B2; Y CENTRE OFFSET</p>
+
+			<div id="creator">
+				<p>Created by <a target="_blank" href="mailto:contact@mharward.co.nz">Matthew Harward</a></p>
+				<p>Repo located in <a target="_blank" href="https://github.com/mharward/shaperevolver">GitHub</a></p>
+			</div>
 		</div>
 		<canvas id="canvas" width="100" height="100" ></canvas>
 	</body>

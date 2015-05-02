@@ -1,45 +1,82 @@
 console.log("Test");
 
+var presets = {
+	preset1: {
+		xOffset: 0,
+		yOffset: 0,
+		heightOffset: 0,
+		widthOffset: 0,
+		count: 33,
+		rotationChange: 0.3,
+		heightChange: 0.9,
+		widthChange: 1.05,
+		startColour: '#a92370',
+		endColour: '#1a129c',
+		xCentreOffset: 0,
+		yCentreOffset: 0,
+		initialRotation: 0,
+		type: 'triangle'
+	},
+	preset2: {
+		xOffset: 0,
+		yOffset: 0,
+		heightOffset: -312,
+		widthOffset: 104,
+		count: 36,
+		rotationChange: 0.15,
+		heightChange: 1.05,
+		widthChange: 0.9,
+		startColour: '#2f7d0d',
+		endColour: '#946c1b',
+		xCentreOffset: -69,
+		yCentreOffset: 69,
+		initialRotation: -2.17159,
+		type: 'diamond'
+	},
+	preset3: {
+		xOffset: 0,
+		yOffset: 45,
+		heightOffset: 380,
+		widthOffset: -2,
+		count: 41,
+		rotationChange: 0.35,
+		heightChange: 0.9,
+		widthChange: 0.925,
+		startColour: '#a93723',
+		endColour: '#e0d838',
+		xCentreOffset: -31,
+		yCentreOffset: 126,
+		initialRotation: -0.81159,
+		type: 'oval'
+	}
+};
+
 var canvas;
 var centre;
-var options = {
-	canvasWidth: 0,
-	canvasHeight: 0,
-	xOffset: 0,
-	yOffset: 0,
-	heightOffset: 0,
-	widthOffset: 0,
-	count: 33,
-	rotationChange: 0.3,
-	heightChange: 0.9,
-	widthChange: 1.05,
-	startColour: '#a92370',
-	endColour: '#1a129c',
-	xCentreOffset: 0,
-	yCentreOffset: 0,
-	initialRotation: 0,
-	type: 'triangle'
-}
+var options;
 
-window.onload = function () {
+$(function() {
 	canvas = document.getElementById("canvas");
+	setPreset('preset1');
+});
+
+function setPreset(presetName) {
+	options = jQuery.extend({}, presets[presetName]);
 	resize();
-};
+}
 
 function resize() {
 	canvas.width = $(window).width() - 18;
 	canvas.height = $(window).height() - 18;
-	options.canvasWidth = canvas.width;
-	options.canvasHeight = canvas.height;
-	centre = { x: options.canvasWidth / 2, y: options.canvasHeight / 2 };
+	centre = { x: canvas.width / 2, y: canvas.height / 2 };
 	doDraw();
 }
 
 function doDraw() {
 	if (canvas.getContext) {
 		var ctx = canvas.getContext("2d");
-		ctx.clearRect ( 0 , 0 , canvas.width, canvas.height );
-		var height = options.canvasWidth / 2 * 0.8;
+		ctx.clearRect (0, 0, canvas.width, canvas.height);
+		var height = canvas.width / 2 * 0.8;
 		var width = height / 4;
 		height = height + options.heightOffset;
 		width = width + options.widthOffset;
@@ -68,13 +105,13 @@ function setType(type) {
 
 function setXPosOffset(amount) {
 	options.xOffset = amount;
-	centre = { x: options.canvasWidth / 2 + options.xOffset, y: options.canvasHeight / 2 + options.yOffset };
+	centre = { x: canvas.width / 2 + options.xOffset, y: canvas.height / 2 + options.yOffset };
 	doDraw();
 }
 
 function setYPosOffset(amount) {
 	options.yOffset = -amount;
-	centre = { x: options.canvasWidth / 2 + options.xOffset, y: options.canvasHeight / 2 + options.yOffset };
+	centre = { x: canvas.width / 2 + options.xOffset, y: canvas.height / 2 + options.yOffset };
 	doDraw();
 }
 

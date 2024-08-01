@@ -21,7 +21,7 @@ function createField(field) {
 	var cssSelector = '#' + field.name;
 	switch (field.type) {
 		case 'slider': {
-			$(cssSelector).slider(field.config);
+			$(cssSelector).slider(field.config2);
 			$(cssSelector).on('slidechange', function (event, ui) {
 				if (event.originalEvent) {
 					options[field.internalName] = ui.value;
